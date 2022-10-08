@@ -27,5 +27,7 @@ namespace KnowledgeCheck1_Calculator
         {
             return first / second;
         }
+
+
     }
 }

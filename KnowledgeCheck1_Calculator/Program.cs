@@ -1,82 +1,66 @@
 ﻿using KnowledgeCheck1_Calculator;
 
+
 Console.WriteLine("Hello. Press 1 for addition, 2 for subtraction, 3 for multiplication, and 4 for division");
 
 var input = Console.ReadLine();
 var calculator = new Calculator();
+int[] intPair = new int[2];
+//double[] doublePair = new double[2];
 
 switch (input)
 {
     case "1":
-        Console.WriteLine("Enter 2 integers to add");
-        var addNumber1 = Console.ReadLine();
-        var addNumber2 = Console.ReadLine();
-
-        if (int.TryParse(addNumber1, out int addNumOne) && int.TryParse(addNumber2, out int addNumTwo))
-        {
-            
-            Console.Write($"{addNumber1} + {addNumber2} = ");
-            Console.Write(calculator.Add(addNumOne, addNumTwo));
-        }
-        else
-        {
-            Console.WriteLine("One or more of the numbers is not an int");
-        }
+        intPair = NumberBuddy.IntEntry("add");
+        Console.Write($"{intPair[0]} + {intPair[1]} = {calculator.Add(intPair[0], intPair[1])}");
         break;
-        
-        
 
     case "2":
-        Console.WriteLine("Enter 2 integers to subtract");
-        var subtractNumber1 = Console.ReadLine();
-        var subtractNumber2 = Console.ReadLine();
-
-        if (int.TryParse(subtractNumber1, out int subNumOne) && int.TryParse(subtractNumber2, out int subNumTwo))
-        {
-            Console.Write($"{subtractNumber1} - {subtractNumber2} = ");
-            Console.Write(calculator.Subtract(subNumOne, subNumTwo));
-        }
-        else
-        {
-            Console.WriteLine("One or more of the numbers is not an int");
-        }
+        intPair = NumberBuddy.IntEntry("subtract");
+        Console.Write($"{intPair[0]} - {intPair[1]} = {calculator.Subtract(intPair[0], intPair[1])}");
         break;
 
     case "3":
-        Console.WriteLine("Enter 2 integers to multiply");
-        var multNumber1 = Console.ReadLine();
-        var multNumber2 = Console.ReadLine();
-
-        if (int.TryParse(multNumber1, out int multNumOne) && int.TryParse(multNumber2, out int multNumTwo))
-        {
-
-            Console.Write($"{multNumOne} * {multNumTwo} = ");
-            Console.Write(calculator.Multiply(multNumOne, multNumTwo));
-        }
-        else
-        {
-            Console.WriteLine("One or more of the numbers is not an int");
-        }
+        intPair = NumberBuddy.IntEntry("multiply");
+        Console.Write($"{intPair[0]} * {intPair[1]} = {calculator.Multiply(intPair[0], intPair[1])}");
         break;
 
     case "4":
-        Console.WriteLine("Enter 2 integers to divide");
-        var divideNumber1 = Console.ReadLine();
-        var divideNumber2 = Console.ReadLine();
-
-        if (double.TryParse(divideNumber1, out double divNumOne) && double.TryParse(divideNumber2, out double divNumTwo))
-        {
-            Console.Write($"{divideNumber1} / {divideNumber2} = ");
-            Console.Write(calculator.Divide(divNumOne, divNumTwo));
-        }
-        else
-        {
-            Console.WriteLine("One or more of the numbers is not an int");
-        }
-        break;
+        intPair = NumberBuddy.IntEntry("divide");
+        Console.Write($"{intPair[0]} / {intPair[1]} = {calculator.Divide(intPair[0], intPair[1])}");
         break;
 
     default:
         Console.WriteLine("Unknown input");
         break;
+}
+
+public static partial class NumberBuddy
+{
+    public static int[] IntEntry(string arithOperator)
+    {
+        Console.Write($"Enter first number to {arithOperator}: ");
+        var num1 = Console.ReadLine();
+        var goodNum1 = NumberBuddy.VerifyInteger(num1, "first");
+
+        Console.Write($"Enter second number to {arithOperator}: ");
+        var num2 = Console.ReadLine();
+        var goodNum2 = NumberBuddy.VerifyInteger(num2, "second");
+
+        return new int[] { goodNum1, goodNum2 };
+    }
+
+    public static int VerifyInteger(string num, string numSequence)
+    {
+        do
+        {
+            if (int.TryParse(num, out int goodNum))
+                return goodNum;
+            else
+            {
+                Console.Write($"Bad number. Enter {numSequence} number again: ");
+                num = Console.ReadLine();
+            }
+        } while (true); //infinite
+    }
 }
